@@ -1,13 +1,15 @@
 const express = require('express');
-const externalModule = require('./logger')
+const externalModule = require('../logger/logger')
 
 const router = express.Router();
 
 router.get('/test-me', function (req, res) {
-    console.log('The constant in logger route has a value '+externalModule.endpoint)
-    console.log('The current batch is '+externalModule.batch)
-    externalModule.log()
-    res.send('My first ever api!')
+    //console.log('The constant in logger route has a value '+externalModule.endpoint)
+    //console.log('The current batch is '+externalModule.batch)
+    //externalModule.log()
+    externalModule.welcome()
+    res.send('Welcome to my application. I am Aqueeb and a part of FunctionUp Radon cohort')
+    //res.send('My first ever api')
 });
 
 router.get('/test-me1', function (req, res) {
