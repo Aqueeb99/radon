@@ -1,32 +1,30 @@
 const express = require('express');
-const externalModule = require('../logger/logger')
+const myHelper = require('../util/helper')
+const formatter = require('../validator/formatter')
+const lodash = require('lodash');
 
 const router = express.Router();
 
 router.get('/test-me', function (req, res) {
-    //console.log('The constant in logger route has a value '+externalModule.endpoint)
-    //console.log('The current batch is '+externalModule.batch)
-    //externalModule.log()
-    externalModule.welcome()
-    res.send('Welcome to my application. I am Aqueeb and a part of FunctionUp Radon cohort')
-    //res.send('My first ever api')
+     myHelper.printDate()
+     myHelper.printMonth() 
+    myHelper.getBatchInfo()
+     formatter.trim()
+     formatter.lower()
+    formatter.upper()
+    res.send('My first ever API')
+  
 });
 
-router.get('/test-me1', function (req, res) {
-    res.send('My second ever api!')
-});
+//  router.get('/hello', function (req, res) {
+//      function chunk (){
+//      let array1 = chunk['jan','feb','march', 'april','may','june ','july','aug','sep','oct','nov','dec']
+//     return(chunk(array1,4))
+//      }
 
-router.get('/test-me2', function (req, res) {
-    res.send('My third api!')
-});
+//     console.log(_.chunk())
+//      res.send('Hello there')
+//  });
 
-router.get('/test-me3', function (req, res) {
-    res.send('My 4th api!')
-});
-
-router.get('/test-me4', function (req, res) {
-    res.send('My last api!')
-});
-
-module.exports = router;
+    module.exports = router;
 // adding this comment for no reason
