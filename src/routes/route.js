@@ -18,24 +18,57 @@ router.get('/hello', function (req, res) {
     res.send('Hello there!')
 });
 
-router.get('/candidates', function(req, res){
-    console.log('Query paramters for this request are '+JSON.stringify(req.query))
-    let gender = req.query.gender
-    let state = req.query.state
-    let district = req.query.district
-    console.log('State is '+state)
-    console.log('Gender is '+gender)
-    console.log('District is '+district)
-    let candidates = ['Akash','Suman']
-    res.send(candidates)
-})
-
-router.get('/candidates/:canidatesName', function(req, res){
-    console.log('The request objects is '+ JSON.stringify(req.params))
-    console.log('Candidates name is '+req.params.canidatesName)
-    res.send('Done')
+router.get('/movies', function(req, res){
+    let moviesarray = ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"]
+    res.send(moviesarray)
 })
 
 
+
+router.get('/movies/:indexNumber', function(req, res){
+    let moviesarray = ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"]
+    let indexNumber = req.params.indexNumber
+    let indexno = moviesarray[indexNumber]
+    res.send(indexno)
+})
+
+
+
+router.get('/movies/:indexNumber', function(req, res){
+    let moviesarray = ["Rang de basanti", "The shining", "Lord of the rings", "Batman begins"]
+    let indexNumber = req.params.indexNumber
+        if (indexNumber>=0 && indexNumber<moviesarray.length)
+        {
+            indexno = moviesarray[indexNumber]
+            res.send(indexno)
+        }    
+    else if (indexNumber>=moviesarray.length)
+     {
+    indexNumber = "please use the valid index"
+
+         res.send( indexNumber)
+      }
+})
+
+
+
+router.get('/films', function(req, res){
+let movies = [ {"id":1, "name":"The Shining"}, {"id":2, "name":"Incendies"}, {"id":3, "name":"Rang de Basanti"}, {"id":3, "name":"Rang de Basanti"}]       
+res.send( movies)   
+})
+
+
+
+router.get('/films/:filmId', function(req, res){
+    let movies = [ {"id":1, "name":"The Shining"}, {"id":2, "name":"Incendies"}, {"id":3, "name":"Rang de Basanti"}, {"id":4, "name":"Finding Nemo"}] 
+    let Id = req.params.filmId
+if (Id>0 && Id<=movies.length){
+res.send(movies[Id-1])
+}
+else {
+
+    res.send("No movie exists with this id")   
+}
+ })
 module.exports = router;
 // adding this comment for no reason
