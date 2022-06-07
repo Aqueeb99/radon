@@ -1,4 +1,4 @@
-const { count } = require("console")
+//const { count } = require("console")
 const BookModel= require("../models/bookModel")
 
 const createBook= async function (req, res) {
@@ -8,12 +8,37 @@ const createBook= async function (req, res) {
     res.send({msg: savedData})
 }
 
-const getBooksData= async function (req, res) {
+const bookList= async function (req, res) {
 
-    // let allBooks= await BookModel.find( ).count() // COUNT
+     let allBooks= await BookModel.find().select({bookName:1, authorName:1})// AND
+     res.send(allBooks)
+}
 
-    // let allBooks= await BookModel.find( { authorName : "Chetan Bhagat" , isPublished: true  } ) // AND
-    
+const getBooksInYear= async function (req, res) {
+    let getYear = req.body.year
+    let allBooks= await BookModel.find({year:getYear})
+    res.send(allBooks)
+}
+
+const getParticularBooks= async function (req, res) {
+    let body = req.body
+    let particularBooks= await BookModel.find(body)
+    res.send(particularBooks)
+}
+
+const getXINRBooks= async function (req, res) {
+    let INRBooks= await BookModel.find({"prices.indianPrice": {$in:["Rs 100", "Rs 200", "Rs 500"]}})
+    res.send(INRBooks)
+}
+
+const getRandomBooks= async function (req, res) {
+    let randomBooks= await BookModel.find({$or: [{stockAvailable: true}, {pages:{gt:500}}]})
+    res.send(randomBooks)
+}
+
+
+
+
     // let allBooks= await BookModel.find( { 
     //     $or: [ {authorName : "Chetan Bhagat" } , { isPublished: true } , {  "year": 1991 }]
     // } ).select( { bookName: 1, authorName: 1, _id: 0})n // SELECT keys that we want
@@ -65,21 +90,26 @@ const getBooksData= async function (req, res) {
     
     // ASYNC AWAIT
     
-    let a= 2+4
-    a= a + 10
-    console.log(a)
-    let allBooks= await BookModel.find( )  //normally this is an asynchronous call..but await makes it synchronous
+//     let a= 2+4
+//     a= a + 10
+//     console.log(a)
+//     let allBooks= await BookModel.find( )  //normally this is an asynchronous call..but await makes it synchronous
 
 
-    // WHEN AWAIT IS USED: - database + axios
-    //  AWAIT can not be used inside forEach , map and many of the array functions..BE CAREFUL
-    console.log(allBooks)
-    let b = 14
-    b= b+ 10
-    console.log(b)
-    res.send({msg: allBooks})
-}
+//     // WHEN AWAIT IS USED: - database + axios
+//     //  AWAIT can not be used inside forEach , map and many of the array functions..BE CAREFUL
+//     console.log(allBooks)
+//     let b = 14
+//     b= b+ 10
+//     console.log(b)
+//     res.send({msg: allBooks})
+// }
 
 
 module.exports.createBook= createBook
-module.exports.getBooksData= getBooksData
+module.exports.bookList= bookList
+module.exports.getBooksInYear= getBooksInYear
+module.exports.getParticularBooks= getParticularBooks
+module.exports.getXINRBooks= getXINRBooks
+module.exports.getRandomBooks= getRandomBooks
+//module.exports.getBooksData= getBooksData
