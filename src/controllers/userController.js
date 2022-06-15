@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
-const createUser = async function (abcd, xyz) {
+const createUser = async function (req, res) {
   //You can name the req, res objects anything.
   //but the first parameter is always the request 
   //the second parameter is always the response
-  let data = abcd.body;
+  let data = req.body;
   let savedData = await userModel.create(data);
-  console.log(abcd.newAtribute);
-  xyz.send({ msg: savedData });
+  //console.log(abcd.newAtribute);
+  res.send({ msg: savedData });
 };
 
 const loginUser = async function (req, res) {
@@ -36,7 +36,7 @@ const loginUser = async function (req, res) {
     },
     "functionup-thorium"
   );
-  //res.setHeader("x-auth-token", token);
+  res.setHeader("x-auth-token", token);
   res.send({ status: true, data: token });
 };
 
@@ -46,6 +46,7 @@ const getUserData = async function (req, res) {
   let userDetails = await userModel.findById(userId);
   if (!userDetails)
     return res.send({ status: false, msg: "No such user exists" });
+   
 
   res.send({ status: true, data: userDetails });
 };
@@ -60,7 +61,7 @@ const updateUser = async function (req, res) {
 
   let userData = req.body;
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData, {new: true});
-  res.send({ status: updatedUser, data: updatedUser });
+  res.send({ status: true, data: updatedUser });
 };
 
 const deleteUser = async function(req, res) {    
