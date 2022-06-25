@@ -71,9 +71,10 @@ const updateBlogs = async function(req, res){
         
         if (data.tags) {
             if (typeof data.tags == "object") {
-                blogData.tags.push(...data.tags);
+                blogData.tags.push(...data.tags);// How?
             } else {
                 blogData.tags.push(data.tags);
+                console.log(data.tags)
             }
         }
         
@@ -122,10 +123,10 @@ const deleteByQueryParams = async function(req, res){
         if (Object.keys(data).length <= 0) return res.status(400).send({ status: false, msg: "please enter filter for deletion" })
         let query = {
             isDeleted: false,
-            authorId: req.headers["authorId"]
+            authorId: req.headers["authorId"] // why?
         }
         if (data.authorId){
-            if(req.headers["authorId"] !== data.authorId) return res.status(403).send({ status: false, msg: "You are not authorized...." })
+             if(req.headers["authorId"] !== data.authorId) return res.status(403).send({ status: false, msg: "You are not authorized...." })
         }
         if (data.tags) {
             data.tags = { $in: data.tags.split(',') }
