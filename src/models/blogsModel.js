@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const lodash=require('lodash')
 const objectID= mongoose.Schema.Types.ObjectId
 
 const blogSchema=new mongoose.Schema({
@@ -18,7 +19,7 @@ const blogSchema=new mongoose.Schema({
     require:true
   },
   tags:{
-    typeof:[String],
+    type:[String],
     trim: true
   },
   category: [{type:[String],

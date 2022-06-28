@@ -20,22 +20,17 @@ const createBlog=async function(req, res){
         let reqData = req.body
         if (!isValidRequestBody(reqData)) return res.status(400).send({ status: false, msg: "Body is Required"});
         
-        if(!isValidTitle(reqData.title)){
-            res.status(400).send({status: false, msg: "Title is required"})
+        if(isValidTitle(reqData.title)){
+            res.status(400).send({status: false, msg: "Title is required"})          
             return
         }
         
-        if(!isValid(reqData.body)){
-            res.status(400).send({status: false, msg: "Body is required"})
+        if(isValid(reqData.authorId)){
+            res.status(400).send({status: false, msg: "Author Id is required"})          
             return
         }
 
-        if(!isValid(reqData.authorId)){
-            res.status(400).send({status: false, msg: "Author Id is required"})
-            return
-        }
-
-        if(!isValid(reqData.category)){
+        if(isValid(reqData.category)){                
             res.status(400).send({status: false, msg: "Category is required"})
             return
         }
@@ -44,7 +39,7 @@ const createBlog=async function(req, res){
         if (!savedData) res.status(400).send({ status: false, msg: "Author id does not exist in author collection"})
 
         let checkIsPublished = req.body.isPublished
-        if(checkIsPublished==='true'){
+        if(checkIsPublished===true){
             published= new Date().toISOString();
             reqData.publishedAt= published
         }
@@ -60,7 +55,7 @@ const createBlog=async function(req, res){
 const getBlogs = async function(req, res){
     try{
         let queryData= req.query
-        if (!isValidRequestBody(queryData)) {
+        if (isValidRequestBody(queryData)) {
             let findByQuery = await blogsModel.find({ $and: [{ isDeleted: false }, { isPublished: true }, queryData] } )
             if (findByQuery.length == 0) {
             return res.status(404).send({ status: false, msg: "No such data found" })
@@ -128,7 +123,7 @@ const deleteByBlogId = async function(req, res){
         let idOfBlog = req.params.blogId
 
         let blogData = await blogsModel.findById(idOfBlog)
-        if(!blogData) return res.status(404).send({status: false, msg: "Blog not found, please provide valid blogId"})
+        if(!blogData) return res.status(404).send({status: false, msg: "Blog not found, please provide valid blogId"})  
         
         //authorization
         if(req.headers["authorId"] !== blogData.authorId.toString()) return res.status(403).send({ status: false, msg: "You are not authorized...." })
